@@ -1,0 +1,28 @@
+-- =============================================================
+-- SJMSOM TaskFlow — sample data (OPTIONAL)
+-- Run AFTER schema.sql AND after you've created your Auth users.
+--
+-- Supabase Auth owns the login credentials, so seeding real
+-- logins from SQL isn't possible. Two ways to get sample data:
+--
+--  A) EASIEST — run `npm run seed` (uses the service role key to
+--     create 4 real auth users you can log in as + sample tasks).
+--     See README. That script supersedes this file.
+--
+--  B) MANUAL — create users in Dashboard > Authentication > Users,
+--     then paste their UUIDs below and run this file.
+--
+-- Clear everything before going live with:
+--   truncate public.task_updates, public.tasks restart identity cascade;
+--   delete from public.users;   -- then delete the auth users in the dashboard
+-- =============================================================
+
+-- Example only — replace the UUIDs with real auth user ids if using option B.
+-- do $$
+-- declare admin_id uuid := '00000000-0000-0000-0000-000000000001';
+-- begin
+--   insert into public.tasks (title, description, category_id, assigned_to, created_by, status, priority, due_date)
+--   values ('Confirm title sponsor MoU', 'Follow up with the brand team on the signed MoU.',
+--     (select id from public.categories where name = 'Sponsorship'),
+--     admin_id, admin_id, 'in_progress', 'high', current_date + 5);
+-- end $$;
