@@ -2,7 +2,7 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { ArrowRight, CheckCircle2, CircleDashed, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { getAllTasks, getRecentActivity, getCurrentUser } from "@/lib/queries";
+import { getAllTasks, getRecentActivity, getCurrentUser, getUsers } from "@/lib/queries";
 import { overallProgress, progressByCategory } from "@/lib/stats";
 import { Brand } from "@/components/layout/brand";
 import { Button } from "@/components/ui/button";
@@ -10,16 +10,18 @@ import { Progress } from "@/components/ui/progress";
 import { Avatar } from "@/components/ui/avatar";
 import { StatusBadge } from "@/components/ui/badge";
 import { CountUp } from "@/components/count-up";
+import { PublicMemberBreakdown } from "@/components/public-member-breakdown";
 
 export const dynamic = "force-dynamic";
 
 // Public showcase page — no login required. Presentable to faculty/sponsors.
 export default async function HomePage() {
   const supabase = createClient();
-  const [tasks, activity, me] = await Promise.all([
+  const [tasks, activity, me, users] = await Promise.all([
     getAllTasks(supabase),
     getRecentActivity(supabase, 10),
     getCurrentUser(supabase),
+    getUsers(supabase),
   ]);
 
   const overall = overallProgress(tasks);
@@ -130,6 +132,17 @@ export default async function HomePage() {
         )}
       </section>
 
+      {/* Per-member breakdown — public, read-only view of who's on what */}
+      <section className="container pb-14">
+        <div className="mb-8">
+          <h2 className="font-display text-2xl font-semibold text-ink">By team member</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Every member&rsquo;s tasks, grouped by status.
+          </p>
+        </div>
+        <PublicMemberBreakdown users={users} tasks={tasks} />
+      </section>
+
       {/* Activity + recently completed */}
       <section className="container grid gap-8 pb-20 lg:grid-cols-2">
         <div>
@@ -224,3 +237,4 @@ function Stat({
 function EmptyNote({ text }: { text: string }) {
   return <p className="text-sm text-muted-foreground">{text}</p>;
 }
+
