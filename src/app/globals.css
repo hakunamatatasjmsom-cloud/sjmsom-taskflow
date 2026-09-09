@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* shadcn tokens mapped to the institutional palette */
+    --background: 40 20% 97%;      /* paper */
+    --foreground: 214 22% 15%;     /* ink */
+    --card: 0 0% 100%;
+    --card-foreground: 214 22% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 214 22% 15%;
+    --primary: 222 72% 15%;        /* navy */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 20% 94%;
+    --secondary-foreground: 214 22% 15%;
+    --muted: 40 12% 92%;
+    --muted-foreground: 215 14% 42%;
+    --accent: 40 45% 57%;          /* gold */
+    --accent-foreground: 222 72% 15%;
+    --destructive: 350 60% 30%;    /* maroon-ish */
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 10% 88%;
+    --input: 40 10% 85%;
+    --ring: 222 72% 25%;
+    --radius: 0.6rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Thin gold rule used as a masthead accent. */
+.rule-gold {
+  height: 3px;
+  background: linear-gradient(90deg, #C6A15B 0%, #B08D45 60%, transparent 100%);
+}
+
+/* Subtle paper texture behind the navy hero. */
+.hero-navy {
+  background:
+    radial-gradient(120% 120% at 100% 0%, rgba(198, 161, 91, 0.14) 0%, transparent 45%),
+    linear-gradient(180deg, #0A1A3F 0%, #0B1E4A 100%);
+}
